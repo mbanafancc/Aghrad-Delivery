@@ -1,18 +1,405 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<title>أغراض دليفري</title>
-<link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أغراض دليفري</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Tajawal", sans-serif;
+            background: #f6f8f6;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(90deg, #1E8449, #A9DFBF);
+            padding: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .header-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header input {
+            width: 90%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+
+        /* SLIDER */
+        .slider {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .slides {
+            width: 300%;
+            display: flex;
+            animation: slide 10s infinite;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        @keyframes slide {
+            0% {transform: translateX(0);}
+            33% {transform: translateX(-100%);}
+            66% {transform: translateX(-200%);}
+            100% {transform: translateX(0);}
+        }
+
+        /* CATEGORIES */
+        .categories {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .categories button {
+            background: #1E8449;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: none;
+        }
+
+        /* DATES */
+        .dates {
+            text-align: center;
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* PRODUCTS GRID */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+            gap: 12px;
+            padding: 10px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+            position: relative;
+        }
+
+        .product img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product h4 {
+            margin: 8px 0 3px;
+        }
+
+        .product p {
+            margin: 0;
+            font-size: 13px;
+            color: gray;
+        }
+
+        .product select {
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .product button {
+            width: 100%;
+            padding: 8px;
+            background: linear-gradient(90deg, #1E8449, #A9DFBF);
+            border: none;
+            color: white;
+            margin-top: 7px;
+            border-radius: 6px;
+        }
+
+        /* CART */
+        .cart {
+            position: fixed;
+            bottom: 60px;
+            background: white;
+            width: 100%;
+            padding: 10px;
+            border-top: 3px solid #1E8449;
+            display: none;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .count {
+            background: #1E8449;
+            padding: 4px 10px;
+            color: white;
+            border-radius: 50px;
+        }
+
+        #cartItems {
+            max-height: 160px;
+            overflow-y: auto;
+            padding: 0;
+            list-style: none;
+        }
+
+        #cartItems li {
+            padding: 6px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .whatsapp {
+            display: block;
+            background: #25d366;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+        /* BOTTOM NAV */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: white;
+            border-top: 2px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+        }
+
+        .bottom-nav button {
+            background: none;
+            border: none;
+            color: #1E8449;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bottom-nav i {
+            font-size: 20px;
+        }
+    </style>
+
 </head>
+
 <body>
-<header>
-<img src="logo.svg" class="logo" />
-<h1>أغراض دليفري – الجملة</h1>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="header-inner">
+        <div class="logo"><i class="fa-solid fa-truck-fast"></i> أغراض دليفري</div>
+        <input type="text" id="searchBar" placeholder="ابحث عن منتج..." onkeyup="searchProducts()">
+    </div>
 </header>
-<main>
-<p>يتم الآن ربط الموقع بالشيت...</p>
-</main>
-<script src="script.js"></script>
+
+<!-- SLIDER -->
+<section class="slider">
+    <div class="slides">
+        <div class="slide"><img src="https://i.imgur.com/2lCqC2b.jpg"></div>
+        <div class="slide"><img src="https://i.imgur.com/X5pKp8V.jpg"></div>
+        <div class="slide"><img src="https://i.imgur.com/YZiQpJw.jpg"></div>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<div class="categories">
+    <button onclick="filterCategory('خضار')">خضار</button>
+    <button onclick="filterCategory('فواكه')">فواكه</button>
+    <button onclick="filterCategory('ورقيات')">ورقيات</button>
+    <button onclick="filterCategory('بهارات')">بهارات</button>
+    <button onclick="filterCategory('تمر')">تمر</button>
+</div>
+
+<!-- DATES -->
+<p class="dates">اليوم: <span id="today"></span> — آخر تحديث: <span id="sheetUpdate"></span></p>
+
+<!-- PRODUCTS -->
+<section id="products" class="products"></section>
+
+<!-- CART -->
+<div class="cart" id="cartBox">
+    <div class="cart-header">
+        <h3>السلة</h3>
+        <span class="count" id="cartCount">0</span>
+    </div>
+    <ul id="cartItems"></ul>
+    <p class="total">الإجمالي: <span id="totalPrice">0</span> درهم</p>
+    <a id="whatsappBtn" class="whatsapp" target="_blank">إرسال الطلب لواتساب</a>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+    <button onclick="scrollToTop()"><i class="fa-solid fa-house"></i><span>الرئيسية</span></button>
+    <button onclick="openCart()"><i class="fa-solid fa-cart-shopping"></i><span>السلة</span></button>
+</nav>
+
+<!-- JAVASCRIPT -->
+<script>
+const sheetID = "1d6G1o5vrE4plkVN5oJbAss8dLQTmzAE7";
+const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
+
+let productsData = [];
+let cart = [];
+
+// DATE
+document.getElementById("today").innerText = new Date().toLocaleDateString("ar-AE");
+
+// LOAD PRODUCTS
+fetch(sheetURL)
+    .then(res => res.text())
+    .then(data => {
+        const json = JSON.parse(data.substring(47, data.length - 2));
+
+        document.getElementById("sheetUpdate").innerText =
+            json.table.rows[0].c[5]?.f || "—";
+
+        json.table.rows.forEach(row => {
+            productsData.push({
+                name: row.c[0]?.v || "",
+                desc: row.c[1]?.v || "",
+                price: row.c[2]?.v || "",
+                img: row.c[3]?.v || "",
+                category: row.c[4]?.v || ""
+            });
+        });
+
+        displayProducts(productsData);
+    });
+
+// DISPLAY PRODUCTS
+function displayProducts(list) {
+    const container = document.getElementById("products");
+    container.innerHTML = "";
+
+    list.forEach(p => {
+        container.innerHTML += `
+            <div class="product">
+                <img src="${p.img}">
+                <h4>${p.name}</h4>
+                <p>${p.desc}</p>
+                <p><b>${p.price} درهم</b></p>
+
+                <select id="qty-${p.name}">
+                    <option value="كرتونة">كرتونة</option>
+                    <option value="نصف">نصف</option>
+                    <option value="ربع">ربع</option>
+                </select>
+
+                <button onclick='addToCart("${p.name}", ${p.price})'>
+                    إضافة للسلة
+                </button>
+            </div>
+        `;
+    });
+}
+
+// SEARCH
+function searchProducts() {
+    const txt = document.getElementById("searchBar").value;
+    const filtered = productsData.filter(p => p.name.includes(txt));
+    displayProducts(filtered);
+}
+
+// CATEGORY FILTER
+function filterCategory(cat) {
+    const filtered = productsData.filter(p => p.category === cat);
+    displayProducts(filtered);
+}
+
+// CART OPEN
+function openCart() {
+    document.getElementById("cartBox").style.display = "block";
+}
+
+// ADD TO CART
+function addToCart(name, price) {
+    const qty = document.getElementById(`qty-${name}`).value;
+
+    cart.push({ name, price, qty });
+    updateCart();
+}
+
+// UPDATE CART
+function updateCart() {
+    const list = document.getElementById("cartItems");
+    const total = document.getElementById("totalPrice");
+    const count = document.getElementById("cartCount");
+
+    let sum = 0;
+
+    list.innerHTML = "";
+    cart.forEach((item, i) => {
+        sum += item.price;
+
+        list.innerHTML += `
+            <li>
+                ${item.name} (${item.qty}) — ${item.price} درهم
+                <button onclick="removeItem(${i})">❌</button>
+            </li>
+        `;
+    });
+
+    total.innerText = sum;
+    count.innerText = cart.length;
+
+    const msg = encodeURIComponent(
+        cart.map(c => `${c.name} (${c.qty}) — ${c.price} درهم`).join("\n") +
+        `\nالإجمالي: ${sum} درهم`
+    );
+
+    document.getElementById("whatsappBtn").href =
+        `https://wa.me/971581622080?text=${msg}`;
+}
+
+// REMOVE ITEM
+function removeItem(i) {
+    cart.splice(i, 1);
+    updateCart();
+}
+
+// SCROLL TO TOP
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+</script>
+
 </body>
 </html>
